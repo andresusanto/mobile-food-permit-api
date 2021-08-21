@@ -1,13 +1,14 @@
 {
   "private": true,
   "name": "mobile-food-permit-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Mobile Food Permit API",
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' -r tsconfig-paths/register src/index.ts",
     "build": "ttsc",
     "start": "NODE_ENV=production node dist/index.js",
+    "format": "prettier --write .",
     "lint": "prettier --check . && eslint .",
     "test": "npm run lint && jest"
   },
