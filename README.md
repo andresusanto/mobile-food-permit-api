@@ -73,10 +73,10 @@ $ docker pull ghcr.io/andresusanto/mobile-food-permit-api:<TAG>
 
 [See all docker tags here](https://github.com/andresusanto/mobile-food-permit-api/pkgs/container/mobile-food-permit-api).
 
-### Running it locally using docker:
+### Running it locally using Docker Compose:
 
 ```bash
-$ docker run --rm -p 3000:3000 --name mobile-food-permit-api ghcr.io/andresusanto/mobile-food-permit-api:<TAG>
+$ docker compose up
 ```
 
 ## Developing
