@@ -12,6 +12,8 @@ In short, this API:
 
 ### Demo
 
+[<img width="480" alt="image" src="https://user-images.githubusercontent.com/7076809/130314032-738c7571-f770-49db-b236-ce50aa83349e.png">](https://mobile-food-permit-api.herokuapp.com/docs)
+
 A demo instance of this API is available on Heroku:
 
 **[Demo (Swagger-UI)](https://mobile-food-permit-api.herokuapp.com/docs)**
@@ -24,7 +26,7 @@ A demo instance of this API is available on Heroku:
 4. **Unit Testing:** Jest and Supertest.
 5. **Logging:** Winston.
 6. **Indexing Lib:** Fuse.js (fuzzy index) and Geokdbush (geospatial index).
-7. **CI/CD:** GitHub Action to automatically build images on mainline branch, push it to container registry, and deploy it to Heroku.
+7. **CI/CD:** GitHub Action to automatically test, build, and deploy changes on mainline branch.
 
 ## Deploying
 
@@ -32,32 +34,25 @@ A demo instance of this API is available on Heroku:
 
 Requirements:
 
-1. Active Heroku Account _(only for deploying)_
-2. Heroku CLI v7.x or newer _(only for deploying)_
+1. Active Heroku Account
+2. Heroku CLI v7.x or newer
 
 Steps:
 
-1. Log-in to your Heroku Account _if you have not logged in before_:
-
-```
+```bash
+# Log-in to your Heroku Account (if you have not logged in before):
 $ heroku login
-```
 
-2. Sign-in into the Heroku Container Registry by using this command:
 
-```
+# Sign-in into the Heroku Container Registry by using this command:
 $ heroku container:login
-```
 
-3. Build the docker image and push it to the container registry:
 
-```
+# Build the docker image and push it to the container registry:
 $ heroku container:push web
-```
 
-4. Release the built image:
 
-```
+# Release the built image:
 $ heroku container:release web
 ```
 
@@ -67,7 +62,7 @@ As the app is packaged as a Docker container, it can be deployed on any containe
 
 **Docker Image**
 
-```
+```bash
 $ docker pull ghcr.io/andresusanto/mobile-food-permit-api:<TAG>
 ```
 
@@ -80,7 +75,7 @@ $ docker pull ghcr.io/andresusanto/mobile-food-permit-api:<TAG>
 
 ### Running it locally using docker:
 
-```
+```bash
 $ docker run --rm -p 3000:3000 --name mobile-food-permit-api ghcr.io/andresusanto/mobile-food-permit-api:<TAG>
 ```
 
@@ -93,38 +88,33 @@ Requirements:
 
 **Before developing:**
 
-1. Install all required tool and dependencies:
+```bash
+# Install all required tool and dependencies:
 
-```
 $ npm i
 ```
 
 **When developing:**
 
-1. Start the local development server:
+```bash
+# Start the local development server:
 
-```
 $ npm run dev
 ```
 
 **After making changes:**
 
-1. Perform code formatting _(if do not have Prettier integration with Your IDE)_
-
-```
+```bash
+# Perform code formatting (if do not have Prettier integration with Your IDE)
 $ npm run format
-```
 
-2. Perform code linting
 
-```
+# Perform code linting
 $ npm run lint
-```
 
-3. Perform unit-tests:
 
-```
-$ npm run test
+# Perform unit-tests:
+$ npm test
 ```
 
 ## Building
@@ -135,15 +125,12 @@ Requirements:
 
 Steps:
 
-1. Run the docker build command:
-
-```
+```bash
+# Run the docker build command:
 $ docker build -t <NAME>:<TAG> .
-```
 
-2. Push the built image to registry
 
-```
+# Push the built image to registry
 $ docker push <NAME>:<TAG>
 ```
 
@@ -151,14 +138,16 @@ $ docker push <NAME>:<TAG>
 
 See [config.ts](./src/utils/config.ts) for more details.
 
-1. `PORT` _(integer)_ - the port in which the app should listen to. defaults to `3000`.
-2. `NODE_ENV` _(string: `production` or `development`)_ - indicates the environment on where this app is running.
-3. `DEFAULT_LIMIT` _(integer)_ - the default limit of returned data if limit is not given in search query. defaults to `10`.
-4. `DEFAULT_MAX_DIST` _(float)_ - the default maximum distance (in kilometers) if maxKM is not specified in search query. defaults to `10`.
-5. `LOG_LEVEL` _(string: `debug`, `info`, `warn`, `error`)_ - the log level configured for the app logger. defaults to `info`.
-6. `DATA_SOURCE` _(string)_ - the location of the CSV data source. defaults to `<app location>/data/source.csv`
+| Environment        | Type                                        | Description                                                                             | Default Value                    |
+| ------------------ | ------------------------------------------- | --------------------------------------------------------------------------------------- | -------------------------------- |
+| `PORT`             | _integer_                                   | the port in which the app should listen to.                                             | `3000`                           |
+| `NODE_ENV`         | _string_ (`production`, `development`)      | indicates the environment on where this app is running.                                 |                                  |
+| `DEFAULT_LIMIT`    | _integer_                                   | the default limit of returned data if limit is not given in search query.               | `10`                             |
+| `DEFAULT_MAX_DIST` | _float_                                     | the default maximum distance (in kilometers) if maxKM is not specified in search query. | `10`                             |
+| `LOG_LEVEL`        | _string_ (`debug`, `info`, `warn`, `error`) | the log level configured for the app logger.                                            | `info`                           |
+| `DATA_SOURCE`      | _string_                                    | the location of the CSV data source.                                                    | `<app location>/data/source.csv` |
 
 ## Limitations/Trade-offs
 
-1. The API does not have any authentication/authorisation layers - for simplicity
-2. The app performs indexing on start-up and does not persist the built indices - for simplicity. Depending on the size of the data, persisting the built indices would make the app start-up time faster.
+1. The API does not have any authentication/authorisation layers for simplicity
+2. The app performs indexing on start-up and does not persist the built indices for simplicity. Depending on the size of the data, persisting the built indices would make the start-up time faster.
