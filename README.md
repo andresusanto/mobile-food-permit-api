@@ -24,6 +24,7 @@ A demo instance of this API is available on Heroku:
 4. **Unit Testing:** Jest and Supertest.
 5. **Logging:** Winston.
 6. **Indexing Lib:** Fuse.js (fuzzy index) and Geokdbush (geospatial index).
+7. **CI/CD:** GitHub Action to automatically build images on mainline branch, push it to container registry, and deploy it to Heroku.
 
 ## Deploying
 
