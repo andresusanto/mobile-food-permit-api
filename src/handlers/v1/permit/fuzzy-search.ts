@@ -7,7 +7,7 @@ import config from "@src/utils/config";
  * GET /v1/permit/_fuzzy
  * @summary Search permit data using a given keyword query.
  * @tags permits
- * @param {string} q.query.required - search query
+ * @param {string} query.query.required - search query, for example: burger
  * @param {integer} limit.query - maximum number of items returned
  * @return {array<Permit>} 200 - success response - application/json
  * @return {object} 400 - bad request - application/json
@@ -22,7 +22,7 @@ export function createV1FuzzySearchHandler(
   return [
     "/v1/permit/_fuzzy",
     (req, res) => {
-      const query = <string>req.query.q;
+      const query = <string>req.query.query;
       const limit = req.query.limit
         ? parseInt(<string>req.query.limit)
         : config.DEFAULT_LIMIT;

@@ -31,7 +31,7 @@ test("reject request with limit", async () => {
 
   const req = await request(app)
     .get("/v1/permit/_fuzzy")
-    .query({ q: "test", limit: "hello" });
+    .query({ query: "test", limit: "hello" });
   expect(req.statusCode).toBe(400);
   expect(req.body).toEqual({ error: "invalid limit" });
   expect(searcher).not.toBeCalled();
@@ -44,7 +44,7 @@ test("reject request with negative limit", async () => {
 
   const req = await request(app)
     .get("/v1/permit/_fuzzy")
-    .query({ q: "test", limit: "-123" });
+    .query({ query: "test", limit: "-123" });
   expect(req.statusCode).toBe(400);
   expect(req.body).toEqual({ error: "limit must be greater than zero" });
   expect(searcher).not.toBeCalled();
@@ -55,7 +55,9 @@ test("valid request without limit", async () => {
   const app = express();
   app.use(...createV1FuzzySearchHandler(searcher));
 
-  const req = await request(app).get("/v1/permit/_fuzzy").query({ q: "test" });
+  const req = await request(app)
+    .get("/v1/permit/_fuzzy")
+    .query({ query: "test" });
   expect(req.statusCode).toBe(200);
   expect(searcher).toHaveBeenCalledWith("test", config.DEFAULT_LIMIT);
 });
@@ -67,7 +69,7 @@ test("valid request with limit", async () => {
 
   const req = await request(app)
     .get("/v1/permit/_fuzzy")
-    .query({ q: "query", limit: 123 });
+    .query({ query: "query", limit: 123 });
   expect(req.statusCode).toBe(200);
   expect(searcher).toHaveBeenCalledWith("query", 123);
 });

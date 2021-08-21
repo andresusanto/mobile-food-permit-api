@@ -1,4 +1,4 @@
-name: Docker
+name: mainline-build
 on:
   push:
     branches: [main]
